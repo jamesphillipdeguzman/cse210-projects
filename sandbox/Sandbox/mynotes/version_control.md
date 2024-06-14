@@ -1,6 +1,7 @@
 # Version Control
 #### 6/11/2024
-
+#### Author: James Phillip De Guzman
+#### Course: CSE210 - Programming with Classes
 ## Git and GitHub
 
 
