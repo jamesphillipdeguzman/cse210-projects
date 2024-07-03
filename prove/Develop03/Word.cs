@@ -9,19 +9,24 @@ public class Word
     private bool _isHidden;
 
     // Keeps track of a single word
-    public Word(string text)
+    public Word(string text, bool isHidden)
     {
+        _text = text;
+        _isHidden = isHidden;
+        Hide();
+
 
     }
     // Hide the word
     public void Hide()
     {
+        _isHidden = true;
 
     }
     // Show the word
     public void Show()
     {
-
+        _isHidden = false;
     }
     // Default value of words is to show them
     public bool IsHidden()
@@ -29,10 +34,15 @@ public class Word
         return false;
 
     }
-    
+
     public string GetDisplayText()
     {
         return "";
+    }
+
+    public override string ToString()
+    {
+        return $"{_text}";
     }
 
 }

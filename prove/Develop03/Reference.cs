@@ -25,4 +25,19 @@ public class Reference
         _endVerse = endVerse;
     }
 
+    // Print scriptures with range verses and single verse.
+    public string GetDisplayText()
+    {
+        if (_endVerse != 0) {
+            return $"{_book} {_chapter} {_verse}:{_endVerse} - ";
+        }
+        else
+        {
+            return $"{_book} {_chapter}:{_verse} - ";
+        }
+
+    }
+
+
+
 }
