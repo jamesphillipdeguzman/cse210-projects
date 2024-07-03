@@ -28,6 +28,7 @@ class Program
         Console.WriteLine(".::Welcome to Scripture Memorizer!::.");
         Console.WriteLine("-------------------------------------");
         Console.WriteLine("\nIntructions: ");
+        Console.WriteLine("\nYou may need to press the commands or letter twice to commit your choice: ");
         Console.WriteLine("a - loads all scriptures");
         Console.WriteLine("b - back to menu");
         Console.WriteLine("l - loads a random scripture");
@@ -56,6 +57,7 @@ class Program
                     Console.WriteLine($".::Welcome to Scripture Memorizer!::. " + currentDate);
                     Console.WriteLine("-------------------------------------");
                     Console.WriteLine("\nIntructions: ");
+                    Console.WriteLine("\nYou may need to press the commands or letter twice to commit your choice: ");
                     Console.WriteLine("a - loads all scriptures");
                     Console.WriteLine("b - back to menu");
                     Console.WriteLine("l - loads a random scripture");
@@ -68,6 +70,7 @@ class Program
                     Console.WriteLine($".::Welcome to Scripture Memorizer!::. " + currentDate);
                     Console.WriteLine("-------------------------------------");
                     Console.WriteLine("\nIntructions: ");
+                    Console.WriteLine("\nYou may need to press the commands or letter twice to commit your choice: ");
                     Console.WriteLine("a - loads all scriptures");
                     Console.WriteLine("b - back to menu");
                     Console.WriteLine("l - loads a random scripture");
@@ -76,12 +79,8 @@ class Program
 
                     break;
                 case ConsoleKey.L:
-                    //Scripture scripture = new Scripture();
-                    //scripture.HideRandomWords();
                     ParseScripture();
-
                     break;
-
 
                 case ConsoleKey.Q:
                     Console.WriteLine("\nBye!");
@@ -265,7 +264,7 @@ class Program
         {
             ctr += 1;
         }
-        Console.WriteLine($"\n>>{ctr} scriptures found...\n");
+        Console.WriteLine($"\n>>{ctr} scriptures loaded from {fileName}. \nPress <enter> to enter prompt or continue to press <enter> key again to start Scripture Memorizer game... Enjoy! =) \n");
 
         return fileContent;
 
