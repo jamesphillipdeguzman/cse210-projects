@@ -1,0 +1,16 @@
+Single file (but doesn't work)
+
+dotnet publish -r win-x64 -p:PublishSingleFile=true -c Release
+
+It could be going to the release folder, though.
+
+
+
+
+Publish all files (this works)
+
+dotnet publish -c Release -r win-x64 --self-contained=true /p:PublishSingleFile=true /p:IncludeAllContentForSelfExtract=true /p:PublishTrimmed=true -o ./publish
+
+Go the site below to generate AI ico files
+
+AI Image Creator - Free Online Text to Image App | Fotor
