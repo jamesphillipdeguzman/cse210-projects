@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Security;
 using Develop03;
 
@@ -24,6 +25,7 @@ class Program
 {
     static void Main(string[] args)
     {
+        Console.Beep();
         Console.WriteLine("-------------------------------------");
         Console.WriteLine(".::Welcome to Scripture Memorizer!::.");
         Console.WriteLine("-------------------------------------");
@@ -36,7 +38,7 @@ class Program
         Console.WriteLine("<enter> - press to hide words\n");
 
         ConsoleKey key;
-
+        Scripture scripture = new Scripture();
 
         do
         {
@@ -50,9 +52,10 @@ class Program
             key = keyInfo.Key;
             switch (key)
             {
-                case ConsoleKey.A:
 
-                    //Console.Clear();
+                case ConsoleKey.A:
+                    Console.Beep();
+                    scripture.animationSpinner();
                     Console.WriteLine("\n-------------------------------------");
                     Console.WriteLine($".::Welcome to Scripture Memorizer!::. " + currentDate);
                     Console.WriteLine("-------------------------------------");
@@ -66,6 +69,8 @@ class Program
                     Console.WriteLine(File.Exists(filePath) ? LoadFromFile() : "The file does not exist.");
                     break;
                 case ConsoleKey.B:
+                    Console.Beep();
+                    scripture.animationSpinner();
                     Console.WriteLine("\n-------------------------------------");
                     Console.WriteLine($".::Welcome to Scripture Memorizer!::. " + currentDate);
                     Console.WriteLine("-------------------------------------");
@@ -79,10 +84,13 @@ class Program
 
                     break;
                 case ConsoleKey.L:
+                    Console.Beep();
+                    scripture.animationSpinner();
                     ParseScripture();
                     break;
 
                 case ConsoleKey.Q:
+                    Console.Beep();
                     Console.WriteLine("\nBye!");
                     break;
                 case ConsoleKey.Enter:
@@ -93,6 +101,7 @@ class Program
                     break;
 
                 default:
+                    Console.Beep();
                     Console.WriteLine("\nInvalid input!");
                     break;
 
@@ -101,8 +110,11 @@ class Program
 
         } while (key != ConsoleKey.Q);
 
+
+
         static string ParseScripture()
         {
+            Scripture scripture1 = new Scripture();
             string filePath = "scriptures.csv";
             int countRows = 0;
             string[] lines = System.IO.File.ReadAllLines(filePath);
@@ -147,11 +159,20 @@ class Program
 
                 refPart = parts[0];
                 // Handle extra "\" in front of the refPart
-                string[] refinedRefPart = refPart.Split("\"");
-                refPart = refinedRefPart[1].Trim();
-                txtPart = parts[1];
-                string[] refinedtxtPart = txtPart.Split("\"");
-                txtPart = refinedtxtPart[0].Trim();
+                if (refPart.Contains("\""))
+                {
+                    string[] refinedRefPart = refPart.Split("\"");
+                    refPart = refinedRefPart[1].Trim();
+                    txtPart = parts[1];
+                    string[] refinedtxtPart = txtPart.Split("\"");
+                    txtPart = refinedtxtPart[0].Trim();
+                }
+                else
+                {
+                    refPart = parts[0].Trim();
+                    txtPart = parts[1].Trim();
+                }
+
 
 
                 // Split further by space to get the book name and passage (the verse parts)
@@ -184,6 +205,7 @@ class Program
                 if (endVerse != 0)
                 {
                     Reference reference = new Reference(book, chapter, verse, endVerse);
+                    scripture1.animationSpinner();
                     Console.WriteLine(reference.GetDisplayText());
                     Word word = new Word(txtPart, true);
                     List<Word> words = new List<Word>();
@@ -198,6 +220,7 @@ class Program
                 {
 
                     Reference reference = new Reference(book, chapter, verse);
+                    scripture1.animationSpinner();
                     Console.Write(reference.GetDisplayText());
                     // Create a word object where you can pass in a string text and bool true/false value
                     Word word = new Word(txtPart, true);

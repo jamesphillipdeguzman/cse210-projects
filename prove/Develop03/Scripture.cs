@@ -40,7 +40,9 @@ public class Scripture
 
         List<Word> words = new List<Word>();
         List<int> indexes = new List<int>();
+        // Display full verse and text without hiding any words yet to the user
         Console.Clear();
+        Console.WriteLine(verse + ": " + _text);
         for (int i = 0; i < parts.Length - 1; i++)
         {
             string newText = "";
@@ -73,11 +75,11 @@ public class Scripture
 
                         }
 
-                        IsCompletelyHidden();
-                        // Console.Clear();
                         break;
 
                     }
+
+                    IsCompletelyHidden();
                 }
 
             }
@@ -110,19 +112,10 @@ public class Scripture
 
                 // Hide words as user presses the enter key...
 
-                // string userInput = Console.ReadLine();
-
-                // if (string.IsNullOrEmpty(userInput))
-                // {
                     ConsoleKey key;
-                    //Console.Write("> ");
+
                     var keyInfo = Console.ReadKey(intercept: false);
                     key = keyInfo.Key;
-
-                //     {
-                // Clear the screen before printing the verse and new text
-
-
 
                     if (key == ConsoleKey.Enter)
                     {
@@ -136,21 +129,6 @@ public class Scripture
                         break;
                     }
 
-
-
-
-                //     }
-                // }
-                // else
-                // {
-                //     if(userInput.Trim().ToLower() == "quit")
-                //     {
-                //         Console.WriteLine("Bye!");
-                //         break;
-                //     }
-                // }
-
-
             }
 
         }
@@ -158,9 +136,44 @@ public class Scripture
     }
 
 
-    // Get the rendered display of the text.
-    // Text with some words shown normally, and some replaced by underscores.
-    public void GetDisplayText(string verse, Word word)
+    public void animationSpinner()
+    {
+        // Do a simple triple dot animation before parsing the scripture from the csv file
+        List<string> spinner = new List<string>();
+
+        for (int i = 0; i < 3; i++)
+        {
+            //Console.Clear();
+            if (i % 2 == 0)
+            {
+                spinner.Add(".");
+                spinner.Add("..");
+
+            }
+            else
+            {
+                spinner.Add("...");
+                spinner.Add("..");
+                spinner.Add(".");
+            }
+
+        }
+        foreach (string c in spinner)
+        {
+            Console.Write("\nLoading");
+            Console.Write(c);
+            Thread.Sleep(200);
+            Console.Write("\b \b");
+            Console.Clear();
+
+        }
+
+}
+
+
+// Get the rendered display of the text.
+// Text with some words shown normally, and some replaced by underscores.
+public void GetDisplayText(string verse, Word word)
     {
         word.Show();
         List<Word> words = new List<Word>();
@@ -186,23 +199,10 @@ public class Scripture
             if (key == ConsoleKey.Enter)
             {
                 Console.Write("> ");
-
                 HideRandomWords(verse);
 
             }
-        // }
-        // else
-        // {
-        //     if (userInput.Trim().ToLower() == "quit")
-        //     {
-        //         Console.WriteLine("Bye!");
 
-        //     }
-        // }
-
-
-
-        //return verse + ": " + words[0];
     }
     // Default value of the scripture is to show everything at first.
     // Check if all text had been hidden
@@ -210,6 +210,7 @@ public class Scripture
     {
         Console.Clear();
         Console.WriteLine("Quitting the program now...please type 'q' after q> to quit or press <enter> to continue...");
+
         return true;
     }
 
