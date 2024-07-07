@@ -10,12 +10,23 @@ public class ReflectingActivity: Activity
 
     public ReflectingActivity(string name, string description, int duration):base(name, description, duration)
     {
+        // Console.WriteLine($"\nWelcome to the {name}");
+        // Console.WriteLine($"\n{description}");
+        // Console.Write("How long, in seconds, would you like for your session? ");
+        // duration = int.Parse(Console.ReadLine());
+        DisplayStartingMessage();
+        Run();
+    }
+
+    public ReflectingActivity()
+    {
 
     }
 
+
     public void Run()
     {
-
+        base.ShowSpinner(_duration);
     }
 
     public string GetRandomPrompt()
@@ -35,7 +46,7 @@ public class ReflectingActivity: Activity
 
     public void DisplayQuestions()
     {
-        
+
     }
 
 
