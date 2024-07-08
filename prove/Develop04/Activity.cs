@@ -187,5 +187,30 @@ public class Activity
         } while (i != _duration + 1 && ctr != 0);
 
     }
-}
 
+
+    public void ShowCountdown2(int seconds)
+    {
+        string spin = "";
+        List<string> spinner = new List<string>();
+
+        int i = 1;
+        int ctr = _duration;
+        do
+        {
+            spin += ".";
+            ctr -= 1;
+
+            Console.Write(spin);
+            Console.Write(i);
+            Console.Beep(262, 500);
+            Thread.Sleep(500);
+            Console.Write("\b \b");
+            Console.Clear();
+
+            spinner.Add(spin);
+            i++;
+
+        } while (i != _duration + 1 && ctr != 0);
+    }
+}

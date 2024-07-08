@@ -12,7 +12,7 @@ public class ReflectingActivity: Activity
     public ReflectingActivity(string name, string description, int duration):base(name, description, duration)
     {
         DisplayStartingMessage();
-        
+
     }
 
     public ReflectingActivity()
@@ -44,6 +44,10 @@ public class ReflectingActivity: Activity
                 i--;
 
             } while (i != 0);
+            Console.Clear();
+            DisplayPrompt();
+            ShowSpinner();
+            DisplayQuestions();
 
 
         }
@@ -59,7 +63,7 @@ public class ReflectingActivity: Activity
 
         // Get a random number to return from the prompt list
         Random randomPrompt = new Random();
-        int randNum = randomPrompt.Next(1, _prompts.Count);
+        int randNum = randomPrompt.Next(0, _prompts.Count);
 
         string theRandomPrompt = $"Consider the following prompt\n ---- {_prompts[randNum]} ----\n";
         return theRandomPrompt;
@@ -67,7 +71,7 @@ public class ReflectingActivity: Activity
 
     public string GetRandomQuestion()
     {
-        List<string> randomQuestions = new List<string>();
+        List<string> _questions = new List<string>();
         _questions.Add("Why was this experience meaningful to you?");
         _questions.Add("Have you ever done anything like this before?");
         _questions.Add("How did you get started?");
@@ -80,7 +84,7 @@ public class ReflectingActivity: Activity
 
         // Get a random number to return from the question list
         Random randomQuestion = new Random();
-        int randNum = randomQuestion.Next(1, _questions.Count);
+        int randNum = randomQuestion.Next(0, _questions.Count);
 
         string theRandomQuestion = $"> {_questions[randNum]} ----\n";
         ShowSpinner();
@@ -89,11 +93,12 @@ public class ReflectingActivity: Activity
 
     public void DisplayPrompt()
     {
-
+        Console.WriteLine(GetRandomPrompt());
     }
 
     public void DisplayQuestions()
     {
+        Console.WriteLine(GetRandomQuestion());
 
     }
 
