@@ -9,12 +9,8 @@ public class ListingActivity : Activity
 
     public ListingActivity(string name, string description, int duration):base(name, description, duration)
     {
-        // Console.WriteLine($"\nWelcome to the {name}");
-        // Console.WriteLine($"\n{description}");
-        // Console.Write("How long, in seconds, would you like for your session? ");
-        // duration = int.Parse(Console.ReadLine());
         DisplayStartingMessage();
-        Run();
+        
     }
 
     public ListingActivity()
@@ -25,7 +21,7 @@ public class ListingActivity : Activity
 
     public void Run()
     {
-        base.ShowSpinner(_duration);
+        base.ShowGetReady(_duration);
     }
 
     public void GetRandomPrompt()

@@ -1,5 +1,12 @@
 using System;
 using System.Diagnostics;
+using System.Security.Cryptography.X509Certificates;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+
 using Develop04;
 
 class Program
@@ -10,13 +17,12 @@ class Program
         // Initialize some variables here...
         string userInput = "";
         int duration = 0;
+
         // Display menu system to user
-
-
         do
         {
-            Console.WriteLine(".::Mindfulness by James De Guzman::.\n");
-            Console.WriteLine("\nMenu Options:");
+            Console.WriteLine(".::Mindfulness by James De Guzman::.");
+            Console.WriteLine("Menu Options:");
             Console.WriteLine("1. Start breathing activity ");
             Console.WriteLine("2. Start reflecting activity ");
             Console.WriteLine("3. Start listing activity ");
@@ -31,6 +37,7 @@ class Program
                     "This activity will help you relax by walking you through breathing in and out slowly. \n" +
                     "Clear your mind and focus on your breathing.\n", duration);
                     breathingActivity.Run();
+                    breathingActivity.DisplayEndingMessage();
                     break;
                 case "2":
                     ReflectingActivity reflectingActivity =
@@ -38,6 +45,7 @@ class Program
                     "This activity will help you reflect on times in your life when you have shown strength and resilience. \n" +
                     "This will help you recognize the power you have and how you can use it in other aspects of your life.\n", duration);
                     reflectingActivity.Run();
+                    reflectingActivity.DisplayEndingMessage();
                     break;
 
                 case "3":
@@ -45,6 +53,7 @@ class Program
                     new ListingActivity("Listing Activity",
                     "This activity will help you reflect on the good things in your life by having you list as many things as you can in a certain area.\n", duration);
                     listingActivity.Run();
+                    listingActivity.DisplayEndingMessage();
                     break;
                 case "4":
                     Console.WriteLine("Bye!");
@@ -56,7 +65,7 @@ class Program
             }
 
         } while (userInput != "4");
-
-
     }
+
 }
+
