@@ -1,4 +1,6 @@
-﻿using System.Diagnostics.Contracts;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace Develop04;
 
@@ -38,20 +40,7 @@ public class ListingActivity : Activity
 
             Console.Clear();
         GetRandomPrompt();
-        // 
 
-        int j = _duration/5;
-            List<string> listFromUser = new List<string>();
-            do
-            {
-                Console.Write("> ");
-
-                string userInput = Console.ReadLine();
-                listFromUser.Add(userInput);
-
-                j--;
-            } while (j != 0);
-            GetListFromUser(listFromUser);
 
     }
 
@@ -70,13 +59,104 @@ public class ListingActivity : Activity
 
         string theRandomPrompt = $"List as many responses you can to the following prompt: \n ---- {_prompts[randNum]} ----\n";
         Console.WriteLine(theRandomPrompt);
+        GetListFromUser(_prompts[randNum]);
 
     }
 
-    public string GetListFromUser(List<string> prompts)
+    public string GetListFromUser(string thePrompt)
     {
-        List<string> _prompts = new List<string>();
-        _prompts = prompts;
-        return "";
+        int j = _duration / 5;
+        List<string> listFromUser = new List<string>();
+        do
+        {
+            Console.Write("> ");
+
+            string userInput = Console.ReadLine();
+            listFromUser.Add(userInput);
+
+            j--;
+        } while (j != 0);
+
+        string allList = "";
+        _prompts = listFromUser;
+        foreach (string prompt in _prompts)
+        {
+            allList += prompt + " | ";
+        }
+
+        // Add date and time
+        DateTime currentDate = DateTime.Now;
+        string dateText = currentDate.ToShortDateString();
+        string allListEntry = thePrompt + " | " + dateText + " | " + allList;
+        Console.WriteLine("Your entry was saved!");
+
+        SaveToFile("listing.csv", allListEntry);
+        return allListEntry;
     }
+
+    // Auto save my listing entries to listing.csv
+    public void SaveToFile(string fileName, string myList)
+    {
+        if (myList.Length != 0)
+        {
+            {
+                using (StreamWriter writer = new StreamWriter(fileName))
+                {
+                    // Save my journal entries in a text file.
+
+                    writer.WriteLine($"{myList.Trim()}");
+
+                }
+            }
+        }
+
+    }
+
+    public string LoadFromFile(string fileName)
+    {
+
+        // Check if file name is not empty
+        if (fileName != "")
+        {
+
+            // load default filename if empty to avoid error
+            fileName = "listing.csv";
+            string[] lines = System.IO.File.ReadAllLines(fileName);
+            // Read the contents only
+            string fileContent = File.ReadAllText(fileName);
+            if (fileContent.Length != 0)
+            {
+
+            }
+            string[] theFileCleaned = fileContent.Split("\"");
+            for (int i = 0; i < lines.Length; i++)
+            {
+                Console.WriteLine(theFileCleaned[i]);
+            }
+            return fileContent;
+
+        }
+        else
+        {
+
+            if (File.Exists(fileName))
+            {
+                // Read the contents of the text file line per line
+                string[] lines = System.IO.File.ReadAllLines(fileName);
+                // Read the contents only
+                string fileContent = File.ReadAllText(fileName);
+                string[] theFileCleaned = fileContent.Split("\"");
+                for (int i=0; i<lines.Length; i++)
+                {
+                    Console.WriteLine(theFileCleaned[i]);
+                }
+
+            }
+
+            return "";
+        }
+    }
+
+
 }
+
