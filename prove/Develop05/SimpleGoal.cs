@@ -4,13 +4,13 @@ public class SimpleGoal : Goal
 {
     private bool _isComplete;
 
-    public SimpleGoal(string name, string description, int points): base(name, description, points)
-    {
-        List<String> simpleGoals = new List<string>();
-        simpleGoals.Add(name);
-        simpleGoals.Add(description);
-        simpleGoals.Add(points.ToString());
 
+    public SimpleGoal(string goals, string name, string description, int points): base(goals, name, description, points)
+    {
+        _goals = goals;
+        _shortName = name;
+        _description = description;
+        _points = points;
 
     }
     // This method should do whatever is necessary for each specific kind of goal, such as marking a simple goal complete and adding to the number
@@ -30,7 +30,7 @@ public class SimpleGoal : Goal
     // This method should provide all of the details of a goal in a way that is easy to save to a file, and then load later.
     public override string GetStringRepresentation()
     {
-        return "";
+        return $"{_goals}: | {_shortName} | {_description} | {_points} | {IsComplete()}";
     }
 
 

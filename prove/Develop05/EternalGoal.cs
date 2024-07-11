@@ -2,7 +2,7 @@
 
 public class EternalGoal : Goal
 {
-    public EternalGoal(string name, string description, int points) : base(name, description, points)
+    public EternalGoal(string goals, string name, string description, int points) : base(goals, name, description, points)
     {
 
     }
@@ -24,7 +24,7 @@ public class EternalGoal : Goal
     // This method should provide all of the details of a goal in a way that is easy to save to a file, and then load later.
     public override string GetStringRepresentation()
     {
-        return "";
+        return $"{_goals}: | {_shortName} | {_description} | {_points}";
     }
 
 }
