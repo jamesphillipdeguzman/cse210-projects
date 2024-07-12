@@ -25,7 +25,7 @@ public abstract class Goal
 
     public virtual string GetDetailString()
     {
-        return "";
+        return $"[ ] {_shortName} ({_description})";
     }
 
     public abstract string GetStringRepresentation();

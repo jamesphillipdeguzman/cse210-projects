@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.Contracts;
 using System.Reflection.Metadata;
+using System.IO;
 
 namespace Develop05;
 // Initializes and empty list of goals and sets the player's score to be 0.
@@ -45,15 +46,14 @@ public class GoalManager
                 case "1":
                     // 1. Create New Goal
                     CreateGoal();
-                    //ListGoalNames();
                     break;
                 case "2":
-                    // 2. List Goals
-
-                    ListGoalNames();
+                    // List Goals (print to the console)
+                    Console.WriteLine(_chosenGoal);
                     break;
                 case "3":
                     // 3. Save Goals
+                    _ctr = 0;
                     SaveGoals();
                     break;
                 case "4":
@@ -87,37 +87,45 @@ public class GoalManager
     // Lists the names of each of the goals.
     public void ListGoalNames()
     {
-        string allGoalNames = "";
-        string[] goalName = _chosenGoal.Split(" | ");
-        string theGoalName = $"{_ctr}. [ ] {goalName[0]} ({goalName[1]})";
+        // string allGoalNames = "";
+        // _ctr += 1;
+        // string[] goalName = _chosenGoal.Split(" | ");
+        // string theGoalName = $"{_ctr}. [ ] {goalName[0]} ({goalName[1]})";
 
-        List<string> _goalNames = new List<string>();
-        _goalNames.Add(theGoalName);
-        foreach (string _goalName in _goalNames)
+        // List<string> _goalNames = new List<string>();
+        // _goalNames.Add(theGoalName);
+        // foreach (string _goalName in _goalNames)
+        // {
+        //     allGoalNames += _goalName                                                    ;
+        //     Console.WriteLine(allGoalNames);
+        // }
+
+        foreach (Goal goal in _goals)
         {
-            allGoalNames += _goalName;
-            Console.WriteLine(allGoalNames);
+            _ctr += 1;
+            _chosenGoal += _ctr + ". " + goal.GetDetailString() + "\n";
+
+            ListGoalDetails(goal);
+
+            // Console.WriteLine(_chosenGoal);
         }
-
-
-        //ListGoalDetails();
-
 
     }
 
     // Lists the details of each goal (including the checkbox of whether it is complete).
     public void ListGoalDetails(Goal goal)
     {
-        string myGoal = goal.GetDetailString();
-        Console.WriteLine($"{goal.GetStringRepresentation()}");
+        string _goalNames = goal.GetDetailString();
+        // Console.WriteLine($"{myGoal}");
 
     }
 
     // Asks the user for the information about a new goal. Then, creates the goal and adds it to the list.
     public void CreateGoal()
     {
-        // Update counter each time a goal is created
-        _ctr += 1;
+        // Intialize variables here
+        _chosenGoal = "";
+        _ctr = 0;
         string myGoal = "";
         // List<Goal> _goals = new List<Goal>();
         // Ask user which goal type they want to add to the list
@@ -129,7 +137,7 @@ public class GoalManager
         // Pick up their chosen goal
         string userChoice = Console.ReadLine();
 
-
+        // Choice# 1: Add Simple Goal
         if (userChoice.Trim().ToLower() == "1")
         {
             // Ask the same set of questions each time for Simple Goal and Eternal Goal
@@ -144,6 +152,7 @@ public class GoalManager
             SimpleGoal simpleGoal = new SimpleGoal(myGoal, goalName, shortDesc, pointAmount);
             _goals.Add(simpleGoal);
         }
+        // Choice# 2: Add Eternal Goal
         else if (userChoice.Trim().ToLower() == "2")
         {
             // Ask the same set of questions each time for Simple Goal and Eternal Goal
@@ -158,6 +167,7 @@ public class GoalManager
             EternalGoal eternalGoal = new EternalGoal(myGoal, goalName, shortDesc, pointAmount);
             _goals.Add(eternalGoal);
         }
+        // Choice# 3: Add Checklist Goal
         else if (userChoice.Trim().ToLower() == "3")
         {
             // Ask the same set of questions each time for Simple Goal and Eternal Goal
@@ -171,9 +181,9 @@ public class GoalManager
             int goalFrequency = int.Parse(Console.ReadLine());
             Console.Write("What is the bonus for accomplish it that many times? ");
             int bonusPoints = int.Parse(Console.ReadLine());
-
+            int amountCompleted = 0;
             myGoal = "Checklist Goal";
-            ChecklistGoal checklistGoal = new ChecklistGoal(myGoal, goalName, shortDesc, pointAmount, goalFrequency, bonusPoints);
+            ChecklistGoal checklistGoal = new ChecklistGoal(myGoal, goalName, shortDesc, amountCompleted, pointAmount, goalFrequency, bonusPoints);
             _goals.Add(checklistGoal);
 
 
@@ -183,12 +193,7 @@ public class GoalManager
             myGoal = "";
         }
 
-        _chosenGoal = "";
-        foreach (Goal goal in _goals)
-        {
-            _chosenGoal += goal.GetStringRepresentation();
-            ListGoalNames();
-        }
+        ListGoalNames();
 
     }
 
@@ -201,6 +206,22 @@ public class GoalManager
     //Saves the list of goals to a file.
     public void SaveGoals()
     {
+        string myGoals = "";
+        foreach (Goal goal in _goals)
+        {
+            _ctr += 1;
+            myGoals += goal.GetStringRepresentation() + "\n";
+        }
+
+        // Ask for the filename to save the goals
+        Console.Write("What is the filename for the goal file? ");
+        string fileName = Console.ReadLine().Trim().ToLower();
+        using (StreamWriter goalFile = new StreamWriter(fileName))
+        {
+            goalFile.WriteLine(_score);
+            goalFile.WriteLine(myGoals);
+        }
+
 
     }
 

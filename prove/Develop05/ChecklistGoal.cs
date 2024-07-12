@@ -1,4 +1,6 @@
-﻿namespace Develop05;
+﻿using System.Runtime.CompilerServices;
+
+namespace Develop05;
 // This class needs to track the number of times it has been completed, the target number of times the user is striving for, and the bonus for achieving that target.
 public class ChecklistGoal : Goal
 {
@@ -6,14 +8,11 @@ public class ChecklistGoal : Goal
     private int _target;
     private int _bonus;
 
-    public ChecklistGoal(string goals, string name, string description, int points, int target, int bonus): base(goals, name, description, points)
+    public ChecklistGoal(string goals, string name, string description, int amountCompleted, int points, int target, int bonus): base(goals, name, description, points)
     {
-        _goals = goals;
-        _shortName = name;
-        _description = description;
-        _points = 0;
-        _target = 0;
-        _bonus = 500;
+        _amountCompleted = amountCompleted;
+        _target = target;
+        _bonus = bonus;
     }
 
     // This method should do whatever is necessary for each specific kind of goal, such as marking a simple goal complete and adding to the number
@@ -35,12 +34,12 @@ public class ChecklistGoal : Goal
     //the number of times the goal has been accomplished so far.
     public override string GetDetailString()
     {
-        return $"{_goals}: | {_shortName} | {_description} | {_points} | {_target} | {_bonus} --- Completed 0/3";
+        return $"[ ] {_shortName} ({_description}) -- Currently completed {_amountCompleted}/{_target}";
     }
 
     // This method should provide all of the details of a goal in a way that is easy to save to a file, and then load later.
     public override string GetStringRepresentation()
     {
-        return $"{_goals}: | {_shortName} | {_description} | {_points} | {_target} | {_bonus}";
+        return $"{_goals}: | {_shortName} | {_description} | {_points} | {_bonus} | {_target} | {_amountCompleted}";
     }
 }
