@@ -8,11 +8,11 @@ public class ChecklistGoal : Goal
     private int _target;
     private int _bonus;
 
-    public ChecklistGoal(string goals, string name, string description, int amountCompleted, int points, int target, int bonus): base(goals, name, description, points)
+    public ChecklistGoal(string goals, string name, string description, int points, int bonus, int target, int amountCompleted) : base(goals, name, description, points)
     {
-        _amountCompleted = amountCompleted;
-        _target = target;
         _bonus = bonus;
+        _target = target;
+        _amountCompleted = amountCompleted;
     }
 
     // This method should do whatever is necessary for each specific kind of goal, such as marking a simple goal complete and adding to the number
@@ -38,8 +38,15 @@ public class ChecklistGoal : Goal
     }
 
     // This method should provide all of the details of a goal in a way that is easy to save to a file, and then load later.
-    public override string GetStringRepresentation()
+    public override string GetStringRepresentation()  // Checklist Goal
     {
+        // Check if the goal name was previously saved to goals.txt.
+        // If yes, remove the colon because the GetStringRepresentation will add it instead.
+        if (_goals.Contains(":"))
+        {
+            string[] parts = _goals.Split(":");
+            _goals = parts[0].Trim();
+        }
         return $"{_goals}: | {_shortName} | {_description} | {_points} | {_bonus} | {_target} | {_amountCompleted}";
     }
 }

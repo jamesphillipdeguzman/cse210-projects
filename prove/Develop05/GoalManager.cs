@@ -87,18 +87,6 @@ public class GoalManager
     // Lists the names of each of the goals.
     public void ListGoalNames()
     {
-        // string allGoalNames = "";
-        // _ctr += 1;
-        // string[] goalName = _chosenGoal.Split(" | ");
-        // string theGoalName = $"{_ctr}. [ ] {goalName[0]} ({goalName[1]})";
-
-        // List<string> _goalNames = new List<string>();
-        // _goalNames.Add(theGoalName);
-        // foreach (string _goalName in _goalNames)
-        // {
-        //     allGoalNames += _goalName                                                    ;
-        //     Console.WriteLine(allGoalNames);
-        // }
 
         foreach (Goal goal in _goals)
         {
@@ -183,7 +171,8 @@ public class GoalManager
             int bonusPoints = int.Parse(Console.ReadLine());
             int amountCompleted = 0;
             myGoal = "Checklist Goal";
-            ChecklistGoal checklistGoal = new ChecklistGoal(myGoal, goalName, shortDesc, amountCompleted, pointAmount, goalFrequency, bonusPoints);
+
+            ChecklistGoal checklistGoal = new ChecklistGoal(myGoal, goalName, shortDesc, pointAmount, bonusPoints, goalFrequency, amountCompleted);
             _goals.Add(checklistGoal);
 
 
@@ -210,6 +199,11 @@ public class GoalManager
         foreach (Goal goal in _goals)
         {
             _ctr += 1;
+
+            // string[] goalName = _chosenGoal.Split(":");
+            // string theGoalName = $"{goalName[0]})";
+
+
             myGoals += goal.GetStringRepresentation() + "\n";
         }
 
@@ -228,6 +222,70 @@ public class GoalManager
     // Loads the list of goals from a file.
     public void LoadGoals()
     {
+
+        // Ask for the filename to load the goals
+        Console.Write("What is the filename for the goal file? ");
+        string fileName = Console.ReadLine().Trim().ToLower();
+
+        string[] lines = System.IO.File.ReadAllLines(fileName);
+
+        foreach (string line in lines)
+        {
+            string[] part = line.Split(":");
+
+            string goalName = part[0].Trim();
+
+            string[] parts = line.Split(" | ");
+            switch (goalName)
+            {
+                case "Simple Goal":
+                    string goal1 = parts[0].Trim();
+                    string shortName1 = parts[1].Trim();
+                    string description1 = parts[2].Trim();
+                    int points1 = int.Parse(parts[3].Trim());
+                    string completed1 = parts[4].Trim();
+
+                    SimpleGoal simpleGoal = new SimpleGoal(goal1, shortName1, description1, points1);
+                    _goals.Add(simpleGoal);
+
+                    break;
+                case "Eternal Goal":
+                    string goal2 = parts[0].Trim();
+                    string shortName2 = parts[1].Trim();
+                    string description2 = parts[2].Trim();
+                    int points2 = int.Parse(parts[3].Trim());
+
+                    EternalGoal eternalGoal = new EternalGoal(goal2, shortName2, description2, points2);
+                    _goals.Add(eternalGoal);
+
+                    break;
+                case "Checklist Goal":
+                    string goal3 = parts[0].Trim();
+                    string shortName3 = parts[1].Trim();
+                    string description3 = parts[2].Trim();
+                    int points3 = int.Parse(parts[3].Trim());
+                    int bonus = int.Parse(parts[4].Trim());
+                    int frequency = int.Parse(parts[5].Trim());
+                    int completed = int.Parse(parts[6].Trim());
+
+                    ChecklistGoal checklistGoal = new ChecklistGoal(goal3, shortName3, description3, points3, bonus, frequency, completed);
+                    _goals.Add(checklistGoal);
+
+                    break;
+                default:
+                    if (parts[0].Trim() == "") break;
+                    _score = int.Parse(parts[0].Trim());
+
+                    break;
+
+            }
+
+        }
+
+        ListGoalNames();
+
+
+
 
     }
 
