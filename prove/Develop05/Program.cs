@@ -7,15 +7,18 @@ using System.IO;
  * Instructor: Brother Duane Richards
  * Date Started: June 10, 2024
  * Date Finished: June 13, 2024
- * Testing: Did a huge amount of it...was tiring, but I really learned something :)
+ * Testing: Did a huge amount of it...was tiring, but I really learned something. :)
+ * Tips: If ever you'd like to undo some action in the program, just press Ctrl + Z (undo).
+ * Warning: Please choose quit after each saves to avoid overriding your existing data.
 
 */
 
 /* Creativity and Exceeding Core Requirements:
  * 1) Added a goals.txt checker (if the file exists).
- * 2) Added number of characters the journal entries has stored.
+ * 2) Added random praises to the user when for certain range of points.
  * 3) Implemented some error trapping for incorrect user inputs.
- * 4) Performed checks if journal.csv exists and whether it has contents.
+ * 4) Performed checks if goals.txt exists and whether it has contents.
+ * 5) Program automatically saves to goals.txt after the Record Event.
  */
 class Program
 {
@@ -37,7 +40,7 @@ class Program
 
                 if (!isLoaded)
                 {
-                    Console.WriteLine($">> {inputFile} file exists and has contents. \n\nIMPORTANT! Ideally, you must load the goals.txt before you can use this program.");
+                    Console.WriteLine($">> {inputFile} file exists and has contents. \n\nWarning: Please choose quit after each saves to avoid overriding your existing data.");
                 }
                 else
                 {
@@ -61,7 +64,6 @@ class Program
         Console.WriteLine("--------------------------------------- ");
         Console.WriteLine(".::Welcome to the Eternal Quest Program!::. " + dateText);
         Console.WriteLine("--------------------------------------- ");
-        Console.WriteLine();
 
         GoalManager goalManager = new GoalManager();
 

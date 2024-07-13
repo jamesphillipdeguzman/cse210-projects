@@ -3,6 +3,7 @@ using System.Reflection.Metadata;
 using System.IO;
 using System.Net;
 using System.Linq.Expressions;
+using System.Runtime.CompilerServices;
 
 namespace Develop05;
 // Initializes and empty list of goals and sets the player's score to be 0.
@@ -15,16 +16,16 @@ public class GoalManager
     private int _ctr = 0;
     private string _chosenGoal;
     private string _chosenGoal2;
-    private string _goalNames;
     private string _theGoal;
     private int _item = 0;
-    private int _initialAmount;
     private int _amountCompleted;
-    private int _initialBonus;
+    private int _target;
     private int _bonus;
     private string userInput = "";
     private bool _status = false;
     private string _Completed = "";
+
+    private bool _isLoaded = false;
 
     public GoalManager() { }
     // This is the "main" function for this class. It is called by Program.cs, and then runs the menu loop.
@@ -32,6 +33,9 @@ public class GoalManager
     {
         do
         {
+            try
+            {
+
             DisplayPlayerInfo();
             Console.WriteLine("Menu Options: ");
             Console.WriteLine(" 1. Create New Goal");
@@ -43,16 +47,15 @@ public class GoalManager
 
             Console.Write("Select a choice from the menu: ");
             userInput = Console.ReadLine().Trim();
-            try
-            {
 
                 switch (userInput)
                 {
                     case "1":
                         // 1. Create New Goal
-                        _initialAmount = 0;
-                        _initialBonus = 0;
+                        _target = 0;
+                        _bonus = 0;
                         CreateGoal();
+                        Console.WriteLine(">>Please choose Save, and then quit to save your file.");
                         break;
                     case "2":
                         // List Goals (print to the console)
@@ -65,16 +68,24 @@ public class GoalManager
 
                             foreach (Goal goal in _goals)
                             {
-                                if (goal.IsComplete(true))
+                                _bonus = 0;
+                                _amountCompleted = 0;
+                                if (_amountCompleted != _target && _status == false)
                                 {
-                                    // Iterate through all the child classes and override the methods as necessary
-                                    Console.WriteLine(goal.GetDetailString4(goal.IsComplete(_status), _amountCompleted, _bonus));
+                                    // Reset the bonus
+                                    _bonus = 0;
+                                    _amountCompleted = goal.GetDetailString6(_amountCompleted);
+                                    _status = goal.IsComplete(false);
                                 }
                                 else
                                 {
-                                    // Iterate through all the child classes and override the methods as necessary
-                                    Console.WriteLine(goal.GetDetailString4(goal.IsComplete(_status), _initialAmount, _initialBonus));
+                                    // Grab the bonus, amount completed and status
+                                    _bonus = goal.GetDetailString5(_bonus);
+                                    _amountCompleted = goal.GetDetailString6(_amountCompleted);
+                                    _status = goal.IsComplete(_status);
                                 }
+                                // Iterate through all the child classes and override the methods as necessary
+                                Console.WriteLine(goal.GetDetailString4(_status, _amountCompleted, _bonus));
 
                             }
 
@@ -89,12 +100,21 @@ public class GoalManager
                     case "4":
                         // 4. Load Goals
                         LoadGoals();
+                        _isLoaded = true;
                         break;
                     case "5":
                         // 5. Record Event
-                        _ctr = 0;
-                        _chosenGoal2 = "";
-                        RecordEvent();
+                        if (_isLoaded == true)
+                        {
+                            _ctr = 0;
+                            _chosenGoal2 = "";
+                            RecordEvent();
+                        }
+                        else
+                        {
+                            Console.WriteLine(">>Please load the goal file first.");
+                        }
+
                         break;
                     case "6":
                         // Quit the program
@@ -110,7 +130,7 @@ public class GoalManager
             // try to catch other errors here and ignore them (e.g., if user typed something else not part of the menu system)
             catch (Exception e)
             {
-                Console.WriteLine($"An error occured {e}");
+                Console.WriteLine($">>An error occured: {e.Message}");
             }
 
         } while (userInput != "6");
@@ -121,7 +141,46 @@ public class GoalManager
     // Displays the players current score.
     public void DisplayPlayerInfo()
     {
-        Console.WriteLine($"\nTotal Score: {_score} points.\n");
+        Console.WriteLine($"\nTotal Score: {_score} points.");
+
+        List<string> praises = new List<string>();
+        praises.Add("Wow, you're on a roll!");
+        praises.Add("Great going!");
+        praises.Add("You're so cool!");
+        praises.Add("Keep it up!");
+        praises.Add("You're wonderful!");
+
+        Random randNum = new Random();
+        int randPraise = randNum.Next(1, praises.Count);
+
+        if (_score >= 50 && _score <= 200)
+        {
+            Console.WriteLine($">>{praises[randPraise]}");
+        }
+        else if (_score >= 201 && _score <= 600)
+        {
+            Console.WriteLine($">>{praises[randPraise]}");
+        }
+        else if (_score >= 601 && _score <= 1500)
+        {
+            Console.WriteLine($">>{praises[randPraise]}");
+        }
+        else if (_score >= 1501 && _score <= 4000)
+        {
+            Console.WriteLine($">>{praises[randPraise]}");
+        }
+        else if (_score > 4001)
+        {
+            Console.WriteLine($">>{praises[randPraise]}");
+        }
+        else
+        {
+            // just add a blank row
+            Console.WriteLine();
+        }
+
+
+
     }
 
     // Lists the names of each of the goals.
@@ -179,74 +238,84 @@ public class GoalManager
         _chosenGoal = "";
         _ctr = 0;
         string myGoal = "";
-
-        // Ask user which goal type they want to add to the list
-        Console.WriteLine("The types of Goals are: ");
-        Console.WriteLine(" 1. Simple Goal");
-        Console.WriteLine(" 2. Eternal Goal");
-        Console.WriteLine(" 3. Checklist Goal");
-        Console.Write("Which type of goal would you like to create? ");
-        // Pick up their chosen goal
-        string userChoice = Console.ReadLine();
-
-        // Choice# 1: Add Simple Goal
-        if (userChoice.Trim().ToLower() == "1")
+        try
         {
-            // Ask the same set of questions each time for Simple Goal and Eternal Goal
-            Console.Write("What is the name of your goal? ");
-            string goalName = Console.ReadLine();
-            Console.Write("What is a short description of it? ");
-            string shortDesc = Console.ReadLine();
-            Console.Write("What is the amount of points associated with this goal? ");
-            int pointAmount = int.Parse(Console.ReadLine());
+            // Ask user which goal type they want to add to the list
+            Console.WriteLine("The types of Goals are: ");
+            Console.WriteLine(" 1. Simple Goal");
+            Console.WriteLine(" 2. Eternal Goal");
+            Console.WriteLine(" 3. Checklist Goal");
+            Console.Write("Which type of goal would you like to create? ");
+            // Pick up their chosen goal
+            string userChoice = Console.ReadLine();
 
-            myGoal = "Simple Goal";
-            SimpleGoal simpleGoal = new SimpleGoal(myGoal, goalName, shortDesc, pointAmount);
-            _goals.Add(simpleGoal);
+            // Choice# 1: Add Simple Goal
+            if (userChoice.Trim().ToLower() == "1")
+            {
+                // Ask the same set of questions each time for Simple Goal and Eternal Goal
+                Console.Write("What is the name of your goal? ");
+                string goalName = Console.ReadLine();
+                Console.Write("What is a short description of it? ");
+                string shortDesc = Console.ReadLine();
+                Console.Write("What is the amount of points associated with this goal? ");
+                int pointAmount = int.Parse(Console.ReadLine());
+
+                myGoal = "Simple Goal";
+                SimpleGoal simpleGoal = new SimpleGoal(myGoal, goalName, shortDesc, pointAmount);
+                _goals.Add(simpleGoal);
+
+            }
+            // Choice# 2: Add Eternal Goal
+            else if (userChoice.Trim().ToLower() == "2")
+            {
+                // Ask the same set of questions each time for Simple Goal and Eternal Goal
+                Console.Write("What is the name of your goal? ");
+                string goalName = Console.ReadLine();
+                Console.Write("What is a short description of it? ");
+                string shortDesc = Console.ReadLine();
+                Console.Write("What is the amount of points associated with this goal? ");
+                int pointAmount = int.Parse(Console.ReadLine());
+
+                myGoal = "Eternal Goal";
+                EternalGoal eternalGoal = new EternalGoal(myGoal, goalName, shortDesc, pointAmount);
+                _goals.Add(eternalGoal);
+            }
+            // Choice# 3: Add Checklist Goal
+            else if (userChoice.Trim().ToLower() == "3")
+            {
+                // Ask the same set of questions each time for Simple Goal and Eternal Goal
+                Console.Write("What is the name of your goal? ");
+                string goalName = Console.ReadLine();
+                Console.Write("What is a short description of it? ");
+                string shortDesc = Console.ReadLine();
+                Console.Write("What is the amount of points associated with this goal? ");
+                int pointAmount = int.Parse(Console.ReadLine());
+                Console.Write("How many times does this goal need to be accomplished for a bonus? ");
+                int goalFrequency = int.Parse(Console.ReadLine());
+                Console.Write("What is the bonus for accomplish it that many times? ");
+                int bonusPoints = int.Parse(Console.ReadLine());
+                int _amountCompleted = 0;
+                myGoal = "Checklist Goal";
+
+                ChecklistGoal checklistGoal = new ChecklistGoal(myGoal, goalName, shortDesc, pointAmount, bonusPoints, goalFrequency, _amountCompleted);
+                _goals.Add(checklistGoal);
+
+            }
+            else
+            {
+                myGoal = "";
+
+            }
+
+            ListGoalNames();
 
         }
-        // Choice# 2: Add Eternal Goal
-        else if (userChoice.Trim().ToLower() == "2")
-        {
-            // Ask the same set of questions each time for Simple Goal and Eternal Goal
-            Console.Write("What is the name of your goal? ");
-            string goalName = Console.ReadLine();
-            Console.Write("What is a short description of it? ");
-            string shortDesc = Console.ReadLine();
-            Console.Write("What is the amount of points associated with this goal? ");
-            int pointAmount = int.Parse(Console.ReadLine());
 
-            myGoal = "Eternal Goal";
-            EternalGoal eternalGoal = new EternalGoal(myGoal, goalName, shortDesc, pointAmount);
-            _goals.Add(eternalGoal);
-        }
-        // Choice# 3: Add Checklist Goal
-        else if (userChoice.Trim().ToLower() == "3")
+        catch (Exception e)
         {
-            // Ask the same set of questions each time for Simple Goal and Eternal Goal
-            Console.Write("What is the name of your goal? ");
-            string goalName = Console.ReadLine();
-            Console.Write("What is a short description of it? ");
-            string shortDesc = Console.ReadLine();
-            Console.Write("What is the amount of points associated with this goal? ");
-            int pointAmount = int.Parse(Console.ReadLine());
-            Console.Write("How many times does this goal need to be accomplished for a bonus? ");
-            int goalFrequency = int.Parse(Console.ReadLine());
-            Console.Write("What is the bonus for accomplish it that many times? ");
-            int bonusPoints = int.Parse(Console.ReadLine());
-            int _amountCompleted = 0;
-            myGoal = "Checklist Goal";
-
-            ChecklistGoal checklistGoal = new ChecklistGoal(myGoal, goalName, shortDesc, pointAmount, bonusPoints, goalFrequency, _amountCompleted);
-            _goals.Add(checklistGoal);
-
-        }
-        else
-        {
-            myGoal = "";
+            Console.WriteLine($">>An error occured: {e.Message}");
         }
 
-        ListGoalNames();
 
     }
 
@@ -262,22 +331,42 @@ public class GoalManager
             ListGoalDetails(goal);
 
         }
+        string tempPts = "";
         Console.WriteLine("The goals are: ");
         Console.WriteLine(_chosenGoal2);
         Console.Write("Which goal did you accomplish? ");
         // Deserialize _chosenGoal2
         _item = int.Parse(Console.ReadLine());
-        string[] goalName = _chosenGoal2.Split("\n");
+        string[] goalName = _chosenGoal2.Split($"\n");
         string theGoalItem = $"{goalName[_item - 1].Trim()}";
-        string[] tempGoal = theGoalItem.Split(":");
-        string tempGoal2 = $"{tempGoal[0]}";
-        string[] temp = tempGoal2.Split(".");
-        string goalTemp = temp[1].Trim();
-        _theGoal = goalTemp;
-        string tempPts = $"{tempGoal[1]}";
-        string[] tempPts2 = tempPts.Split("-");
-        string pts = tempPts2[1].Trim();
-        int _points = int.Parse(pts);
+        string[] tempGoal = theGoalItem.Split("-");
+        string tempGoal2 = $"{tempGoal[0].Trim()}";
+        if (tempGoal2.Contains("Simple Goal"))
+        {
+            tempGoal2 = "Simple Goal";
+        }
+        else if (tempGoal2.Contains("Eternal Goal"))
+        {
+            tempGoal2 = "Eternal Goal";
+        }
+        else
+        {
+            tempGoal2 = "Checklist Goal";
+        }
+        _theGoal = tempGoal2;
+        // Catch out of bounds array error for the points here...
+        try
+        {
+            tempPts = $"{tempGoal[1].Trim()}";
+        }
+        catch
+        {
+
+            tempPts = $"{tempGoal[0].Trim()}";
+        }
+
+
+        int _points = int.Parse(tempPts);
         int i = 0;
 
         foreach (Goal goal in _goals)
@@ -288,7 +377,7 @@ public class GoalManager
 
             if (i == _item - 1)
             {
-                Console.WriteLine($"+{_point}");
+
                 // Only Simple Goals are completed, true or false.
                 if (_theGoal == "Simple Goal")
                 {
@@ -298,6 +387,10 @@ public class GoalManager
                 else if (_theGoal == "Checklist Goal")
                 {
                     _amountCompleted += 1;
+                    _amountCompleted = goal.GetDetailString6(_amountCompleted);
+                    _bonus = goal.GetDetailString5(_bonus);
+                    _status = goal.IsComplete(true);
+                    goal.GetDetailString4(_status, _amountCompleted, _bonus);
                 }
                 break;
             }
@@ -308,10 +401,33 @@ public class GoalManager
 
         }
 
-        _score += _point;
 
-        if (_status == true && _theGoal == "Simple Goal") Console.WriteLine("Goal completed!");
-        Console.WriteLine($"Congratulations! You've earned {_point} points for this {_theGoal.ToLower()}.");
+
+
+        if (_status == true && _theGoal == "Simple Goal")
+        {
+            _score += _point;
+            Console.WriteLine($"+{_point}");
+            Console.WriteLine("Goal completed!");
+        }
+        else if (_status == true && _theGoal == "Checklist Goal" && _amountCompleted == _target)
+        {
+            _point += _bonus;
+            _score += _point;
+            Console.WriteLine($"+{_point}");
+            Console.WriteLine($"Congratulations! You've earned {_point} points for this {_theGoal.ToLower()} (i.e., +{_bonus} bonus points!)");
+        }
+        else
+        {
+            _score += _point;
+            Console.WriteLine($"+{_point}");
+            Console.WriteLine($"Congratulations! You've earned {_point} points for this {_theGoal.ToLower()}.");
+        }
+
+        // Auto-save here...
+        SaveGoals();
+        Console.WriteLine("Warning: Please choose quit after each saves to avoid overriding your existing data");
+
     }
 
     //Saves the list of goals to a file.
@@ -322,6 +438,10 @@ public class GoalManager
         {
             _ctr += 1;
             myGoals += goal.GetStringRepresentation() + "\n";
+            // _bonus = goal.GetDetailString5(_bonus);
+            // _amountCompleted = goal.GetDetailString6(_amountCompleted);
+            // _status = goal.IsComplete(true);
+            goal.GetDetailString4(_status, _amountCompleted, _bonus);
         }
 
         // Ask for the filename to save the goals
@@ -386,6 +506,7 @@ public class GoalManager
                     int points3 = int.Parse(parts[3].Trim());
                     int bonus = int.Parse(parts[4].Trim());
                     int target = int.Parse(parts[5].Trim());
+                    _target = target;
                     int completed = int.Parse(parts[6].Trim());
                     _amountCompleted = completed;
 

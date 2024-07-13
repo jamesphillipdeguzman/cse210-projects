@@ -8,6 +8,10 @@ public abstract class Goal
     protected string _description;
     protected int _points;
 
+    protected int _bonus;
+
+    protected int _amountCompleted;
+
     protected string _goals;
 
 
@@ -45,6 +49,11 @@ public abstract class Goal
 
     public virtual string GetDetailString2()
     {
+        if (_goals.Contains(":"))
+        {
+            string[] parts = _goals.Split(":");
+            _goals = parts[0].Trim();
+        }
         return $"{_goals} {_shortName} - {_points}";
     }
 
@@ -66,7 +75,15 @@ public abstract class Goal
 
     }
 
+    public virtual int GetDetailString5(int bonus)
+    {
+        return _bonus;
+    }
 
+    public virtual int GetDetailString6(int amountCompleted)
+    {
+        return _amountCompleted;
+    }
 
     public abstract string GetStringRepresentation();
 

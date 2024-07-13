@@ -4,9 +4,8 @@ namespace Develop05;
 // This class needs to track the number of times it has been completed, the target number of times the user is striving for, and the bonus for achieving that target.
 public class ChecklistGoal : Goal
 {
-    private int _amountCompleted;
     private int _target;
-    private int _bonus;
+
 
     public ChecklistGoal(string goals, string name, string description, int points, int bonus, int target, int amountCompleted) : base(goals, name, description, points)
     {
@@ -44,11 +43,11 @@ public class ChecklistGoal : Goal
     // This method should return the details of a goal that could be shown in a list. It should include the checkbox,
     // the short name, and description. Then in the case of the ChecklistGoal class, it should be overridden to shown
     //the number of times the goal has been accomplished so far.
-    public override string GetDetailString4(bool status, int amountCompleted, int bonus)
+    public override string GetDetailString4(bool IsComplete, int amountCompleted, int bonus)
     {
         _amountCompleted = amountCompleted;
         // Checklist goal was not completed yet
-        if (status == false && _amountCompleted != _target)
+        if (IsComplete == false && _amountCompleted != _target)
         {
             return $"[ ] {_shortName} ({_description}) -- Currently completed {_amountCompleted}/{_target}";
         }
@@ -56,10 +55,29 @@ public class ChecklistGoal : Goal
         else
         {
             return $"[X] {_shortName} ({_description}) -- Currently completed {_amountCompleted}/{_target}";
+
         }
 
     }
 
+    public override int GetDetailString5(int bonus)
+    {
+
+        return _bonus;
+    }
+
+    public override int GetDetailString6(int amountCompleted)
+    {
+        if(amountCompleted > 0) {
+            _amountCompleted = amountCompleted;
+            return _amountCompleted;
+        }
+        else
+        {
+            return _amountCompleted;
+        }
+
+    }
     // This method should provide all of the details of a goal in a way that is easy to save to a file, and then load later.
     public override string GetStringRepresentation()  // Checklist Goal
     {
