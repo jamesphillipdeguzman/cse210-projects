@@ -1,4 +1,6 @@
-﻿namespace Develop05;
+﻿using System.Net;
+
+namespace Develop05;
 
 public abstract class Goal
 {
@@ -8,6 +10,7 @@ public abstract class Goal
 
     protected string _goals;
 
+
     public Goal(string goals, string name, string description, int points)
     {
         _goals = goals;
@@ -16,23 +19,53 @@ public abstract class Goal
         _points = points;
 
     }
+    public Goal(){}
 
-    public abstract void RecordEvent();
-
-
-    public abstract bool IsComplete();
+    public abstract int RecordEvent(Goal goal);
 
 
-    public virtual string GetDetailString()
+    public abstract bool IsComplete(bool _isComplete);
+
+
+    public virtual string GetDetailString(bool _isComplete)
     {
-        return $"[ ] {_shortName} ({_description})";
+        // Goal was not completed
+        if (_isComplete == false)
+        {
+            return $"[ ] {_shortName} ({_description})";
+        }
+        // Show that goal was completed
+        else
+        {
+            return $"[X] {_shortName} ({_description})";
+        }
+
     }
 
 
     public virtual string GetDetailString2()
     {
-        return $" {_shortName}";
+        return $"{_goals} {_shortName} - {_points}";
     }
+
+    public virtual string GetDetailString3()
+    {
+        return $"{_points}";
+    }
+
+    public virtual string GetDetailString4(bool _isComplete, int _amountCompleted, int bonus)
+    {
+        if (_isComplete == false)
+        {
+            return $"[ ] {_shortName} ({_description})";
+        }
+        else
+        {
+            return $"[X] {_shortName} ({_description})";
+        }
+
+    }
+
 
 
     public abstract string GetStringRepresentation();

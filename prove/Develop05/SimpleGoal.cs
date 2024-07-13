@@ -4,27 +4,30 @@ public class SimpleGoal : Goal
 {
     private bool _isComplete;
 
-
     public SimpleGoal(string goals, string name, string description, int points): base(goals, name, description, points)
     {
-        // _goals = goals;
-        // _shortName = name;
-        // _description = description;
-        // _points = points;
+        _shortName = name;
+        _points = points;
 
     }
-    // This method should do whatever is necessary for each specific kind of goal, such as marking a simple goal complete and
-    // adding to the number of times a checklist goal has been completed. It should return the point value associated with
-    // recording the event (keep in mind that it may contain a bonus in some cases if a checklist goal was just finished.
-    public override void RecordEvent()
+
+    public SimpleGoal(){}
+    // This method should do whatever is necessary for each specific kind of goal, such as marking a simple goal complete.
+    // It should return the point value associated with recording the event
+    public override int RecordEvent(Goal goal)
     {
+        int points = int.Parse(goal.GetDetailString3());
+
+        // return SimpleGoal points
+        return points;
 
     }
 
     // This method should return true if the goal is completed. The way you determine if a goal is complete is different for each type of goal.
-    public override bool IsComplete()
+    public override bool IsComplete(bool status)
     {
-        return false;
+        _isComplete = status;
+        return _isComplete;
     }
 
     // This method should provide all of the details of a goal in a way that is easy to save to a file, and then load later.
@@ -37,7 +40,7 @@ public class SimpleGoal : Goal
             string[] parts = _goals.Split(":");
             _goals = parts[0].Trim();
         }
-        return $"{_goals}: | {_shortName} | {_description} | {_points} | {IsComplete()}";
+        return $"{_goals}: | {_shortName} | {_description} | {_points} | {_isComplete}";
     }
 
 

@@ -1,4 +1,6 @@
-0
-Simple Goal: | Give a talk | Speak at sacrament meeting when asked | 100 | False
+280
+Simple Goal: | Give a talk | Speak at sacrament meeting when asked | 100 | True
 Eternal Goal: | Study the scriptures | Study the scriptures for at least 10 minutes | 50
-Checklist Goal: | Attend the temple | Attend and perform any ordinance | 50 | 500 | 3 | 0
+Checklist Goal: | Attend the temple | Attend and perform any ordinance | 50 | 500 | 3 | 3
+Simple Goal: | Take the trash | Take the trash on Fridays | 30 | True
+
