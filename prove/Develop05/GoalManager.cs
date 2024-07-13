@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics.Contracts;
 using System.Reflection.Metadata;
 using System.IO;
+using System.Net;
 
 namespace Develop05;
 // Initializes and empty list of goals and sets the player's score to be 0.
@@ -11,11 +12,32 @@ public class GoalManager
     protected List<Goal> _goals = new List<Goal>();
     private int _score;
 
+    private int _pointsSG;
+
+    private int _pointsEG;
+
+    private int _pointsCG;
+
+    private bool _completedSG;
+
+    private int _completedCG;
+
+    private int _bonus;
+
+    private int _frequency;
+
+
+
+
     private int _ctr = 0;
 
     private string _chosenGoal;
 
+    private string _chosenGoal2;
+
     private string _goalNames;
+
+    private string userInput = "";
 
 
     public GoalManager()
@@ -25,7 +47,7 @@ public class GoalManager
     // This is the "main" function for this class. It is called by Program.cs, and then runs the menu loop.
     public void Start()
     {
-        string userInput = "";
+
 
         do
         {
@@ -62,6 +84,7 @@ public class GoalManager
                     break;
                 case "5":
                     // 5. Record Event
+                    _ctr = 0;
                     RecordEvent();
                     break;
                 case "6":
@@ -91,11 +114,17 @@ public class GoalManager
         foreach (Goal goal in _goals)
         {
             _ctr += 1;
-            _chosenGoal += _ctr + ". " + goal.GetDetailString() + "\n";
+            if (userInput == "2" || userInput == "4")
+            {
+                _chosenGoal += _ctr + ". " + goal.GetDetailString() + "\n";
+            }
+            else if (userInput == "5")
+            {
+                _chosenGoal2 += _ctr + ". " + goal.GetDetailString2() + "\n";
+            }
 
             ListGoalDetails(goal);
 
-            // Console.WriteLine(_chosenGoal);
         }
 
     }
@@ -103,8 +132,19 @@ public class GoalManager
     // Lists the details of each goal (including the checkbox of whether it is complete).
     public void ListGoalDetails(Goal goal)
     {
-        string _goalNames = goal.GetDetailString();
-        // Console.WriteLine($"{myGoal}");
+        if (userInput == "2" || userInput == "4")
+        {
+            goal.GetDetailString();
+
+        }
+        else if (userInput == "5")
+        {
+            goal.GetDetailString2();
+
+        }
+
+        // Console.WriteLine($"{_goalNames}");
+
 
     }
 
@@ -190,6 +230,21 @@ public class GoalManager
     public void RecordEvent()
     {
 
+        // string[] goalName = _chosenGoal.Split(":");
+        // string theGoalName = $"{goalName[0]})";
+        foreach (Goal goal in _goals)
+        {
+            _ctr += 1;
+            _chosenGoal2 += _ctr + ". " + goal.GetDetailString2() + "\n";
+
+            ListGoalDetails(goal);
+
+        }
+        Console.WriteLine("The goals are: ");
+        Console.WriteLine(_chosenGoal2);
+        Console.Write("Which goal did you accomplish? ");
+        string goalAccomplished = Console.ReadLine();
+        Console.WriteLine($"Congratulations! You have earned {_pointsSG}");
     }
 
     //Saves the list of goals to a file.
@@ -199,11 +254,6 @@ public class GoalManager
         foreach (Goal goal in _goals)
         {
             _ctr += 1;
-
-            // string[] goalName = _chosenGoal.Split(":");
-            // string theGoalName = $"{goalName[0]})";
-
-
             myGoals += goal.GetStringRepresentation() + "\n";
         }
 
@@ -243,7 +293,11 @@ public class GoalManager
                     string shortName1 = parts[1].Trim();
                     string description1 = parts[2].Trim();
                     int points1 = int.Parse(parts[3].Trim());
-                    string completed1 = parts[4].Trim();
+                    bool completed1 = Convert.ToBoolean(parts[4].Trim());
+
+                    // Capture the points and if completed
+                    _pointsSG = points1;
+                    _completedSG = completed1;
 
                     SimpleGoal simpleGoal = new SimpleGoal(goal1, shortName1, description1, points1);
                     _goals.Add(simpleGoal);
@@ -254,6 +308,9 @@ public class GoalManager
                     string shortName2 = parts[1].Trim();
                     string description2 = parts[2].Trim();
                     int points2 = int.Parse(parts[3].Trim());
+
+                    // Capture the points
+                    _pointsEG = points2;
 
                     EternalGoal eternalGoal = new EternalGoal(goal2, shortName2, description2, points2);
                     _goals.Add(eternalGoal);
@@ -267,6 +324,12 @@ public class GoalManager
                     int bonus = int.Parse(parts[4].Trim());
                     int frequency = int.Parse(parts[5].Trim());
                     int completed = int.Parse(parts[6].Trim());
+
+                    // Capture the points and if completed
+                    _pointsCG = points3;
+                    _bonus = bonus;
+                    _frequency = frequency;
+                    _completedCG = completed;
 
                     ChecklistGoal checklistGoal = new ChecklistGoal(goal3, shortName3, description3, points3, bonus, frequency, completed);
                     _goals.Add(checklistGoal);

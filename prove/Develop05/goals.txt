@@ -2,8 +2,3 @@
 Simple Goal: | Give a talk | Speak at sacrament meeting when asked | 100 | False
 Eternal Goal: | Study the scriptures | Study the scriptures for at least 10 minutes | 50
 Checklist Goal: | Attend the temple | Attend and perform any ordinance | 50 | 500 | 3 | 0
-Checklist Goal: | Play the violin | Practice for 2 hours | 30 | 300 | 3 | 0
-Eternal Goal: | Pray daily | Pray with real intent | 300
-Eternal Goal: | Go to church | Evaluate my relationship with God | 1000
-Simple Goal: | Take out the trash | Take it out on Fridays in the morning | 50 | False
-
