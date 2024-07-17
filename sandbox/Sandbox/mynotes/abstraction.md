@@ -1,18 +1,21 @@
 # Articulate: Abstraction in CSharp
+
 #### Name: James Phillip De Guzman
+
 #### Date: June 23, 2024
+
 #### Instructor: Brother Duane Richards
 
-1) Explain the meaning of Abstraction
-    **Answer:** Abstraction is making complex things simple. For example, the print function in Python is a simple command to print the characters in the terminal window, but most people don't know that it is actually made of 3000 plus lines of code in order to make it work "behind-the-scenes", so to speak.
-2) Highlight a benefit of Abstraction
-    **Answer:** What's nice about Abstraction, is that we can actually think of real-world objects and don't worry everything about them. For example, an Animal object can have simple attributes, such as, name, breed, color etc..
-    We do not need to find out everything about an Animal object, but it would suffice to say, that we know what their main responsibilities/purpose in our C# program.
-3) Provide an application of Abstraction
-    **Answer:** Abstraction is an important principle to learn when programming with Classes in C# because it will really help a programmer like me, to create a blueprint/code template that I will use in my program. Classes in C# utilize this principle a lot. Its application can be seen during Class instantiation (i.e. creating an instance of a class). This is when it becomes useful in code, because you can create many different things out of your code template or Class.
+1. Explain the meaning of Abstraction
+   **Answer:** Abstraction is making complex things simple. For example, the print function in Python is a simple command to print the characters in the terminal window, but most people don't know that it is actually made of 3000 plus lines of code in order to make it work "behind-the-scenes", so to speak.
+2. Highlight a benefit of Abstraction
+   **Answer:** What's nice about Abstraction, is that we can actually think of real-world objects and don't worry everything about them. For example, an Animal object can have simple attributes, such as, name, breed, color etc..
+   We do not need to find out everything about an Animal object, but it would suffice to say, that we know what their main responsibilities/purpose in our C# program.
+3. Provide an application of Abstraction
+   **Answer:** Abstraction is an important principle to learn when programming with Classes in C# because it will really help a programmer like me, to create a blueprint/code template that I will use in my program. Classes in C# utilize this principle a lot. Its application can be seen during Class instantiation (i.e. creating an instance of a class). This is when it becomes useful in code, because you can create many different things out of your code template or Class.
 
 Thoroughly explain these concepts
-    **Answer:** For example a Person class can have its own member attributes/fields that I can declare (e.g., _firstName, _lastName, _age). The Person class can also have its own member function/methods. These are things that a Person class can do. Examples are ShowWesternName() and ShowEasternName. Both of which shows or concatenates names on a different order. For example, first name basis first, and then, last name basis first, respectively. These attributes and methods become accessible, usually in other classes and/or your Mains program when you create a constructor for them (e.g., Syntax: <access modifier> such as public, then <return type>, such as void, string, int, float, and lastly, the <ClassName>)
+**Answer:** For example a Person class can have its own member attributes/fields that I can declare (e.g., \_firstName, \_lastName, \_age). The Person class can also have its own member function/methods. These are things that a Person class can do. Examples are ShowWesternName() and ShowEasternName. Both of which shows or concatenates names on a different order. For example, first name basis first, and then, last name basis first, respectively. These attributes and methods become accessible, usually in other classes and/or your Mains program when you create a constructor for them (e.g., Syntax: <access modifier> such as public, then <return type>, such as void, string, int, float, and lastly, the <ClassName>)
 
 ```C#
 // Product Class: I created another example illustrating how powerful abstraction can be. The object Product is created and it's member attributes.
@@ -49,6 +52,7 @@ public override string ToString()
 
 
 ```
+
 ```C#
 
 //Program.cs

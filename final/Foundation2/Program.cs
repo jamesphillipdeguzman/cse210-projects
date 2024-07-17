@@ -1,4 +1,5 @@
 using System;
+using Foundation2;
 /* Author: James Phillip K. De Guzman
  * Programming Language: C Sharp or C#
  * Instructor: Brother Duane Richards
@@ -36,5 +37,10 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Foundation 2: Encapsulation with Online Ordering");
+
+        Product p1 = new Product();
+        Console.WriteLine(p1.GetTotalCost(3, 5));
+
+
     }
 }
