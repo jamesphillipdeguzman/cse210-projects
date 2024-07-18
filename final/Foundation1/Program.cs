@@ -5,7 +5,7 @@ using Foundation1;
  * Programming Language: C Sharp or C#
  * Instructor: Brother Duane Richards
  * Date Started: June 15, 2024
- * Date Finished: TBA
+ * Date Finished: June 18, 2024
  /
 /* Rubrics for Foundation 1: Abstraction with YouTube Videos
  * 1. Abstraction: Video Class
