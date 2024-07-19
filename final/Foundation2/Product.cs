@@ -16,4 +16,17 @@ public class Product
         _quantity = quantity;
         return _price * _quantity;
     }
+
+    public string GetProductInfo()
+    {
+        return $"{_name} | {_productID} | {_quantity} | ${_price}";
+    }
+
+    public void SetProductInfo(string name, string productID, int quantity, double price)
+    {
+        _name = name;
+        _productID = productID;
+        _quantity = quantity;
+        _price = price;
+    }
 }
