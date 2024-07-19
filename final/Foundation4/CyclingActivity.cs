@@ -1,24 +1,49 @@
-﻿namespace Foundation4;
+﻿
 
-public class CyclingActivity : RunningActivity
+namespace Foundation4;
+
+public class CyclingActivity : Activity
 {
-    private double _distance;
+    // private double _distance;
     private double _speed;
     private double _pace;
 
-    public CyclingActivity(string name, string date, int length, double distance, double speed) : base(name, date, length, distance)
+    public CyclingActivity() {}
+    public CyclingActivity(string name, string date, int length, double pace) : base(name, date, length)
     {
         _name = name;
         _date = date;
         _length = length;
-        _distance = distance;
-        _speed = speed;
-        //_pace = pace;
+        // _distance = distance;
+        _pace = pace;
+
+    // Speed = 60 / pace
+    // Pace = 60 / speed
 
     }
 
-    public override string GetSummary(Activity activity)
+
+    public override double GetSpeed(double _pace)
     {
-        return "";
+        _speed = 60 / _pace;
+        return _speed;
     }
+
+    public override double GetPace(double _speed)
+    {
+        _pace = 60 / _speed;
+        return _pace;
+    }
+
+    public override double GetDistance(double speed, int length)
+    {
+        double _distance = (speed / length) * 60;
+        return _distance;
+    }
+
+    public override string GetSummary()
+    {
+        return $"{_date} {_name} ({_length} min)-Speed: {_speed} kph, Pace: {_pace} min per km";
+    }
+
 }

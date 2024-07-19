@@ -1,4 +1,5 @@
 using System;
+using Foundation4;
 /* Author: James Phillip K. De Guzman
  * Programming Language: C Sharp or C#
  * Instructor: Brother Duane Richards
@@ -41,5 +42,40 @@ class Program
     static void Main(string[] args)
     {
         Console.WriteLine("Foundation 4: Polymorphism with Exercise Tracking");
+        Console.WriteLine("=============================================\n");
+        // Create a new date object
+        DateTime currentDate = DateTime.Now;
+        string dateText = currentDate.ToString("dd MMMM yy");
+
+        // Activity 1: Running
+        string activity1 = "Running";
+        int runMinutes = 30;
+        double runDistance = 4.8;
+        RunningActivity running = new RunningActivity(activity1, dateText, runMinutes, runDistance);
+        running.GetSpeed(runDistance, runMinutes);
+        running.GetPace(runMinutes, runDistance);
+        Console.WriteLine(running.GetSummary());
+
+        // Activity 2: Cycling
+        string activity2 = "Cycling";
+        int cycleMinutes = 15;
+        double cyclePace = 10;
+        CyclingActivity cycling = new CyclingActivity(activity2, dateText, cycleMinutes, cyclePace);
+        double cycleSpeed = cycling.GetSpeed(cyclePace);
+        cycling.GetPace(cycleSpeed);
+        cycling.GetDistance(cycleSpeed, cycleMinutes);
+        Console.WriteLine(cycling.GetSummary());
+
+        // Activity 3: Swimming
+        string activity3 = "Swimming";
+        int swimMinutes = 8;
+        double numberOfLaps = 25;
+        SwimmingActivity swimming = new SwimmingActivity(activity3, dateText, swimMinutes, numberOfLaps);
+        double swimDistance = swimming.GetDistance(numberOfLaps);
+        swimming.GetSpeed(swimDistance, swimMinutes);
+        
+        Console.WriteLine(swimming.GetSummary());
+
+
     }
 }
