@@ -402,8 +402,6 @@ public class GoalManager
         }
 
 
-
-
         if (_status == true && _theGoal == "Simple Goal")
         {
             _score += _point;

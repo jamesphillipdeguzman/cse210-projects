@@ -2,15 +2,31 @@
 
 public class ReceptionEvent : Event
 {
-    private string _email;
-    private string _rsvp;
+    private string _rsvpEmail;
 
-    // -- Check why base is throwing an error
-    public string FullDetails(string title, string description, string date, string time, string address, string email, string rsvp) //: base(title, description, date, time, address)
+    // Receptions, which require people to RSVP, or register, beforehand.
+    public ReceptionEvent() {}
+
+    public ReceptionEvent(string title, string description, string date, string time, string address, string rsvpEmail) : base(title, description, date, time, address)
     {
-        _email = email;
-        _rsvp = rsvp;
+        _title = title;
+        _description = description;
+        _date = date;
+        _time = time;
+        _address = address;
+        _rsvpEmail = rsvpEmail;
+    }
+    public string StandardDetails(string title, string description, string date, string time, string address, string rsvpEmail)
+    {
+        _title = title;
+        _description = description;
+        _date = date;
+        _time = time;
+        _address = address;
+        _rsvpEmail = rsvpEmail;
 
-        return "";
+        return $"Event Name: {_title}\nDate and Time: {_date} at {_time}\nLocation: {_address}\nDescription: {_description}\nRSVP: {_rsvpEmail}";
+
+
     }
 }
