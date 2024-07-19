@@ -7,11 +7,6 @@ public class Activity
     protected string _name;
     protected string _date;
     protected int _length;
-
-    private double _distance;
-    private double _speed;
-    private double _pace;
-
     public Activity() {}
     public Activity(string name, string date, int length)
     {
@@ -33,40 +28,40 @@ public class Activity
 
     public virtual double GetDistance(double laps)
     {
-        Console.WriteLine("Please override this");
-        return _distance;
+        // Console.WriteLine("Please override this");
+        return 0;
     }
 
     public virtual double GetDistance(double speed, int minutes)
     {
-        Console.WriteLine("Please override this");
-        return _distance;
+        // Console.WriteLine("Please override this");
+        return 0;
     }
 
 
     public virtual double GetSpeed(double _pace)
     {
         // Console.WriteLine("Please override this");
-        return _pace;
+        return 0;
     }
 
     public virtual double GetPace(double _pace)
     {
         // Console.WriteLine("Please override this");
-        return _pace;
+        return 0;
     }
 
 
     public virtual double GetSpeed(double distance, int minutes)
     {
         // Console.WriteLine("Please override this");
-        return _speed;
+        return 0;
     }
 
     public virtual double GetPace(int minutes, double distance)
     {
         // Console.WriteLine("Please override this");
-        return _pace;
+        return 0;
     }
 
 }
