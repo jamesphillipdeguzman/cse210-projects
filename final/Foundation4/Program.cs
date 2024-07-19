@@ -3,8 +3,8 @@ using Foundation4;
 /* Author: James Phillip K. De Guzman
  * Programming Language: C Sharp or C#
  * Instructor: Brother Duane Richards
- * Date Started: June 15, 2024
- * Date Finished: TBA
+ * Date Started: July 15, 2024
+ * Date Finished: July 20. 2024
  /
 /* Rubrics for Foundation 4: Polymorphism with Exercise Tracking
  * 1. Abstraction
@@ -73,7 +73,7 @@ class Program
         SwimmingActivity swimming = new SwimmingActivity(activity3, dateText, swimMinutes, numberOfLaps);
         double swimDistance = swimming.GetDistance(numberOfLaps);
         swimming.GetSpeed(swimDistance, swimMinutes);
-        
+
         Console.WriteLine(swimming.GetSummary());
 
 
