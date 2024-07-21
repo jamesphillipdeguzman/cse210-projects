@@ -23,7 +23,7 @@
 ----------------------------
 • Highlight how each principle was used in your final project.
   1. Foundation 1 - YouTube Videos (Abstraction principle)
-  Highlights: Video class and Comment class
+  **Highlights**: Video class and Comment class
   ```C#
   public class Video
   {
@@ -40,7 +40,7 @@
   ```
   
   2. Foundation 2 - Online Ordering (Encapsulation principle)
-  Highlights: All privately declared member variables within each class (e.g., Customer, Product, Address and Order classes)
+  **Highlights**: All privately declared member variables within each class (e.g., Customer, Product, Address and Order classes)
   -For brevity, I have only posted a code snippet of my Customer class here.
   ```C#
   public class Customer
@@ -56,7 +56,7 @@
   ```
 
   3. Foundation 3 - Event Planning (Inheritance principle)
-  Hightlights: The Event class is the parent class while the LectureEvent class inherits all protected variables from the Event class and also its methods (e.g., StandardDetails).
+  **Highlights**: The Event class is the parent class while the LectureEvent class inherits all protected variables from the Event class and also its methods (e.g., StandardDetails).
   ```C#
 
   public class Event
@@ -111,7 +111,7 @@
   ```
 
   4. Foundation 4 - Exercise Tracking (Polymorphism principle)
-  Hightlights: The Activity class is the parent class with the GetSummary method which is overridden in the RunningActivity class.
+  **Highlights**: The Activity class is the parent class with the GetSummary method which is overridden in the RunningActivity class.
                The GetSummary() becomes eligible for overriding when we place the **virtual** keyword in it. 
   ```C#
   // Code snippets for all methods came from the Activity class, which is the parent class.
